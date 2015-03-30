@@ -15,3 +15,8 @@ Usage:
  ./conv_generate.sh   #to generate .dat files 
  ./extract_to_csv.sh  #to collate date from calculations that have been performed
 
+Feedback: 
+It is hoped that this set of scripts will help people begin running
+calculations with ONETEP in less time, and may help provide a starting point for future
+scripts of your own invention. Feel free to provide any comments,
+improvements or suggestions.
