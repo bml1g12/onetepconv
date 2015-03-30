@@ -1,0 +1,584 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+theorems-std
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 0
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+ONETEPConv Documentation
+\end_layout
+
+\begin_layout Author
+Benjamin Lowe 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+ University of Southampton 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+ bml1g12@soton.ac.uk
+\end_layout
+
+\begin_layout Date
+10/03/15
+\end_layout
+
+\begin_layout Section
+What is ONETEPConv?
+\end_layout
+
+\begin_layout Standard
+ONETEPConv a set of scripts, written in the Bash scripting language, aimed
+ to make the calculation of Energy and Force convergence data more automated.
+ 
+\end_layout
+
+\begin_layout Standard
+To have confidence in any DFT calculation it is important that the calculation
+ is run with sufficient accuracy for the purpose required.
+ At the most basic level, this can be done via comparing the convergence
+ of properties such as the Total System Energy or Forces with respect to
+ varying the resolution of the basis set.
+ 
+\end_layout
+
+\begin_layout Standard
+By providing ONETEPConv with an example .dat file, ONETEPConv will generate
+ duplicates of this input .dat file, each time varying one parameter of the
+ basis set to form a 'convergence sweep'.
+ ONETEPConv has the following features:
+\end_layout
+
+\begin_layout Itemize
+.dat file generation:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Varying equivalent Kinetic Energy Cutoff (Parameter: 'CUTOFF_ENERGY')
+\end_layout
+
+\begin_layout Itemize
+Varying Radius of the NGWFs per species (Parameter in: %block_species section)
+\end_layout
+
+\begin_layout Itemize
+Varying Number of NGWFs per species (Parameter in: %block_species section)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+To speed up sweeps, ONETEPConv supports resuming calculations (reuse_calculation
+s T) from the result of previous calculations (reading .dkn and .tighbox_ngwfs)
+\end_layout
+
+\begin_layout Itemize
+Results analysis:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Collates the resulting data into sorted .csv files ready for analysis
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Usage
+\end_layout
+
+\begin_layout Enumerate
+Place a template .dat file into /input/
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Ensure the .dat contains a geometry which is not fully geometry optimised
+ because non-zero forces are required to investigate force convergence
+\end_layout
+
+\begin_layout Enumerate
+Ensure the .dat file is a Single Point Energy calculation with 'WRITE_FORCES
+ T'
+\end_layout
+
+\begin_layout Enumerate
+Ensure the .dat file has 'WRITE_DENSITY_PLOT F' as writing these files required
+ unnecessary computation and space requirements.
+\end_layout
+
+\begin_layout Enumerate
+Do not use a high quality basis set in the template, as it will be used
+ for all calculations.
+ It is sufficient to use a low quality basis set and observe the effect
+ of increasing each parameter (kinetic energy cutoff, ngwf radius, number
+ of ngwfs) respectively.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Place the .recpots norm-conserving pseudopotentials that you would like to
+ use into the /recpots/ folder
+\end_layout
+
+\begin_layout Enumerate
+Configure ONETEPConv by editing ./input/settings.conv
+\end_layout
+
+\begin_layout Enumerate
+Run ONETEPConv from the root directory: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+./conv_generate.sh
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+This will generate .dat files in the ./cutoff, ./num_ngwfs and ./ngwf_radius
+ folders respectively
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Within each subdirectory, run ONETEP manually.
+ You may wish to use a script similar to the provided 'run_jobs.sh'.
+\end_layout
+
+\begin_layout Enumerate
+Extract the results of ONETEPConv into sorted CSV files by running:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+./extract_to_csv.sh
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+This will generate .csv files in the ./cutoff, ./num_ngwfs and ./ngwf_radius
+ folders respectively, containing both energies (Ha) and forces (Ha/bohr)
+ for each result.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Section
+ONETEPConv Settings
+\end_layout
+
+\begin_layout Standard
+These can be edited within ./input/settings.conv
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+clean:	T/F
+\end_layout
+
+\end_inset
+
+Remove all input files in subfolders generated from previous runs
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+reuse_calculations:	T/F
+\end_layout
+
+\end_inset
+
+Reuse a density kernel and NGWFs found in ./input/.
+ This will copy these files into the respective folders, and ensure they
+ are read in by the .dat file.
+ Speeds up the calculations in principle.
+ Note that for this to be enabled, you must have already performed a Single
+ Point Energy calculation and placed the .dkn and .tighbox_ngwfs into ./input.
+ If this is set to T, ensure you set READ_TIGHTBOX_NGWFS T and READ_DENSKERN
+ T in your initial .dat file.
+ If this is set to, ensure that this is not the case.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Kinetic Energy Cutoff Sweep Settings
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+min_cutoff:	x.
+\end_layout
+
+\begin_layout Plain Layout
+
+[float] [units=eV]
+\end_layout
+
+\end_inset
+
+For the Kinetic Energy Cutoff scan, this is the starting (minimum) value
+ of the Kinetic Energy Cutoff 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+cutoff_spacing:	 x.
+\end_layout
+
+\begin_layout Plain Layout
+
+[float] [units=eV]
+\end_layout
+
+\end_inset
+
+This is the spacing between each Single Point Energy calculation for the
+ Kinetic Energy Cutoff sweep.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+cutoff_number_of_SPE:	 x
+\end_layout
+
+\begin_layout Plain Layout
+
+[integer]
+\end_layout
+
+\end_inset
+
+This is how many Single Point Energy calculations will be performed, starting
+ from $min_cutoff defined above
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+i.e.
+ max_cutoff=($min_cutoff)+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+($cutoff_spacing*$cutoff_number_of_SPE) 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\bar under
+NGWF Radius Sweep Settings
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+min_NGWF_radius:	 x.
+\end_layout
+
+\begin_layout Plain Layout
+
+[float] [units=bohr]
+\end_layout
+
+\end_inset
+
+Starting NGWF radius for the sweep 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+NGWF_radius_spacing:	 x.
+\end_layout
+
+\begin_layout Plain Layout
+
+[float] [units=bohr]
+\end_layout
+
+\end_inset
+
+Spacing between each Single Point Energy calculation
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+NGWF_radius_number_of_SPE:	 x
+\end_layout
+
+\begin_layout Plain Layout
+
+[integer] 
+\end_layout
+
+\end_inset
+
+This is how many Single Point Energy calculations will be performed, starting
+ from $min_NGWF_radius defined above.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+i.e.
+ max_NGWF_radius=($min_NGWF_radius)+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+($NGWF_radius_spacing*$NGWF_radius_number_of_SPE) 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\bar under
+NGWF Quantity Sweep Settings
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+increased_ngwfs:	 x
+\end_layout
+
+\begin_layout Plain Layout
+
+[integer]
+\end_layout
+
+\end_inset
+
+The NGWFs quantity sweep will begin with the number defined in the initial.dat
+ file.
+ Each additional Single Point Energy calculation will increase the number
+ of NGWFs by 1.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+per_element:	 T/F
+\end_layout
+
+\end_inset
+
+Setting this to True will mean that the '%block_species' parameters (NGWF
+ radius/quantity) will be varied on a per_species basis.
+ This is the default behavior.
+ Setting this to False will vary all species parameters simultaneously,
+ which could be useful for quickly investigating what range of parameters
+ may be required.
+\end_layout
+
+\begin_layout Section
+Tips for Settings up ONETEP Calculations
+\end_layout
+
+\begin_layout Itemize
+See http://www2.tcm.phy.cam.ac.uk/onetep/Main/Utilities for a variety of useful
+ scripts.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For example, 'dat2bounds' calculates the width of your system including
+ NGWF radii, and based on this provides a suggestion as to what a sensible
+ box size might be for either a periodic vacuum padded cell or an open boundary
+ condition simulation (e.g.
+ Implicit Solvent).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Along with Cutoff Energy, and NGWF parameters, you must also ensure that
+ the SCF convergence is small enough for the calculation accuracy required
+ (NGWF_THRESHOLD_ORIG) 
+\end_layout
+
+\begin_layout Itemize
+For calculations involving a periodic slab (x,y direction) which is vacuum
+ separated (z direction), it is important to test the convergence of the
+ slab thickness with respect to your properties of interest.
+\end_layout
+
+\begin_layout Itemize
+If SCF Convergence is taking many iterations, one option is to try a smaller
+ kinetic energy preconditioning parameter 'K_ZERO' (e.g.
+ setting it to 2.5 
+\begin_inset Formula $a_{0}^{-1}$
+\end_inset
+
+), however it is important to ensure that the accuracy of your calculations
+ is still maintained.
+\end_layout
+
+\end_body
+\end_document

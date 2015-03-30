@@ -1,0 +1,35 @@
+##Example OnetepConv input file 
+##Created 02/04/2015 by Benjamin Lowe
+
+##
+#General Parameters
+##
+
+clean T 			# Removes all input files in subfolders generated from previous runs
+reuse_calculations F		# Reuse the density kernel and NGWFs from a previous run.
+				# In principle this should speed up the calculation.
+
+##
+#Energy Cutoff Parameters
+##
+
+min_cutoff 100.0		# Starting kinetic energy cutoff (eV)
+cutoff_spacing 50.0		# Spacing between each single point energy calculation. (eV) 
+cutoff_number_of_SPE 4		# Number of Single Point Energy calculations.
+				# i.e. max_cutoff=(min_cutoff)+(cutoff_spacing*cutoff_number_of_SPE)
+
+##
+#NGWF Radius Parameters
+##
+
+min_NGWF_radius 6.0		# Starting NGWF radius for the scan (bohr)
+NGWF_radius_spacing 1.0 	# Spacing between each NGWF radius calculation (bohr) 
+NGWF_radius_number_of_SPE 3     # Number of Single Point Energy calculations in the NGWF radii scan beyond the initial one. 
+				# i.e. max_NGWF_radius=(min_NGWF_radius)+(NGWF_radius_spacing*NGWF_radius_number_of_SPE)
+
+###
+#NGWF Quantity Parameters
+##
+
+increased_ngwfs 3		# Number of NGWFs to increase by from default in input.dat 
+per_element T 			# Onetepconv Will only vary %block_species parameters on a 'per species' basis

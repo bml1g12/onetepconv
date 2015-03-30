@@ -1,0 +1,19 @@
+Number of k-points           1
+Number of spin components    1
+Number of electrons                8
+Number of eigenvalues          8
+Fermi energy (in atomic units)    -0.257429
+Unit cell vectors
+   94.486316    0.000000    0.000000
+    0.000000   94.486316    0.000000
+    0.000000    0.000000   94.486316
+K-point    1  0.00000000  0.00000000  0.00000000  1.00000000
+Spin component 1
+   -0.96630032
+   -0.46920326
+   -0.35616667
+   -0.25742870
+    0.06261598
+    0.15618781
+    0.32505672
+    0.34439662

@@ -1,0 +1,71 @@
+!Title
+!Onetep calculation from Materials Studio for 3D Atomistic
+!tolerances=-f fine_bl
+
+READ_TIGHTBOX_NGWFS F
+READ_DENSKERN F
+
+WRITE_FORCES TRUE
+TASK SinglePoint
+CUTOFF_ENERGY 400.0000000000   eV
+
+CHARGE 0        
+NGWF_THRESHOLD_ORIG 0.0000018375
+ELEC_ENERGY_TOL 0.001     eV
+MAXIT_NGWF_CG 100      
+MINIT_LNV 10       
+MAXIT_LNV 10       
+MAXIT_PEN 3        
+PEN_PARAM 4        
+
+MAXIT_HOTELLING 100      
+XC_FUNCTIONAL PBE
+SPINPOLARIZED FALSE
+CONSTANT_EFIELD 0.0000000000     0.0000000000     0.0000000000     
+OUTPUT_DETAIL VERBOSE
+GEOM_METHOD CARTESIAN
+GEOM_MAX_ITER 100      
+GEOM_ENERGY_TOL 0.0000100000     eV
+GEOM_FORCE_TOL 0.0300000000     "eV/ang"
+GEOM_DISP_TOL 0.0010000000     ang
+DO_PROPERTIES TRUE
+WRITE_DENSITY_PLOT FALSE
+HOMO_PLOT -1       
+LUMO_PLOT -1       
+DOS_SMEAR 0.1000000000     eV
+NUM_EIGENVALUES 6        
+POPN_CALCULATE FALSE
+
+%block lattice_cart
+94.486315649999995      0.000000000000000       0.000000000000000       
+0.000000000000000       94.486315649999995      0.000000000000000       
+0.000000000000000       0.000000000000000       94.486315649999995      
+%endblock lattice_cart
+
+%block positions_abs
+O 47.82274073160245      47.25667645460973      45.98252560975496      
+H 49.02657873213836      46.37388321646128      47.05079896262087      
+H 48.98893597357800      48.00111084095992      44.77769116409311      
+%endblock positions_abs
+
+
+
+%block species_atomic_set
+O SOLVE
+H SOLVE
+%endblock species_atomic_set
+
+%block species_pot
+O O_00PBE_OP.recpot
+H H_00PBE_OP.recpot
+%endblock species_pot
+
+
+%block species_constraints
+O NONE
+H NONE
+%endblock species_constraints
+%block species
+O O 8 4 7.0
+H H 1 1 6.0
+%endblock species
