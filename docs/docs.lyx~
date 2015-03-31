@@ -127,7 +127,15 @@ To have confidence in any DFT calculation it is important that the calculation
 \begin_layout Standard
 By providing ONETEPConv with an example .dat file, ONETEPConv will generate
  duplicates of this input .dat file, each time varying one parameter of the
- basis set to form a 'convergence sweep'.
+ basis set to form a 
+\begin_inset Quotes els
+\end_inset
+
+convergence sweep
+\begin_inset Quotes ers
+\end_inset
+
+.
  ONETEPConv has the following features:
 \end_layout
 
@@ -137,7 +145,15 @@ By providing ONETEPConv with an example .dat file, ONETEPConv will generate
 
 \begin_deeper
 \begin_layout Itemize
-Varying equivalent Kinetic Energy Cutoff (Parameter: 'CUTOFF_ENERGY')
+Varying equivalent Kinetic Energy Cutoff (Parameter: 
+\begin_inset Quotes els
+\end_inset
+
+CUTOFF_ENERGY
+\begin_inset Quotes ers
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Itemize
@@ -179,13 +195,27 @@ Ensure the .dat contains a geometry which is not fully geometry optimised
 \end_layout
 
 \begin_layout Enumerate
-Ensure the .dat file is a Single Point Energy calculation with 'WRITE_FORCES
- T'
+Ensure the .dat file is a Single Point Energy calculation with 
+\begin_inset Quotes els
+\end_inset
+
+WRITE_FORCES T
+\begin_inset Quotes ers
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
-Ensure the .dat file has 'WRITE_DENSITY_PLOT F' as writing these files required
- unnecessary computation and space requirements.
+Ensure the .dat file has 
+\begin_inset Quotes els
+\end_inset
+
+WRITE_DENSITY_PLOT F
+\begin_inset Quotes ers
+\end_inset
+
+ as writing these files required unnecessary computation and space requirements.
 \end_layout
 
 \begin_layout Enumerate
@@ -231,7 +261,15 @@ This will generate .dat files in the ./cutoff, ./num_ngwfs and ./ngwf_radius
 \end_deeper
 \begin_layout Enumerate
 Within each subdirectory, run ONETEP manually.
- You may wish to use a script similar to the provided 'run_jobs.sh'.
+ You may wish to use a script similar to the provided 
+\begin_inset Quotes els
+\end_inset
+
+run_jobs.sh
+\begin_inset Quotes ers
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Enumerate
@@ -529,8 +567,15 @@ per_element:	 T/F
 
 \end_inset
 
-Setting this to True will mean that the '%block_species' parameters (NGWF
- radius/quantity) will be varied on a per_species basis.
+Setting this to True will mean that the 
+\begin_inset Quotes els
+\end_inset
+
+%block_species
+\begin_inset Quotes ers
+\end_inset
+
+ parameters (NGWF radius/quantity) will be varied on a per_species basis.
  This is the default behavior.
  Setting this to False will vary all species parameters simultaneously,
  which could be useful for quickly investigating what range of parameters
@@ -549,10 +594,18 @@ See http://www2.tcm.phy.cam.ac.uk/onetep/Main/Utilities for a variety of useful
 
 \begin_deeper
 \begin_layout Itemize
-For example, 'dat2bounds' calculates the width of your system including
- NGWF radii, and based on this provides a suggestion as to what a sensible
- box size might be for either a periodic vacuum padded cell or an open boundary
- condition simulation (e.g.
+For example, 
+\begin_inset Quotes els
+\end_inset
+
+dat2bounds
+\begin_inset Quotes ers
+\end_inset
+
+ calculates the width of your system including NGWF radii, and based on
+ this provides a suggestion as to what a sensible box size might be for
+ either a periodic vacuum padded cell or an open boundary condition simulation
+ (e.g.
  Implicit Solvent).
 \end_layout
 
@@ -571,7 +624,15 @@ For calculations involving a periodic slab (x,y direction) which is vacuum
 
 \begin_layout Itemize
 If SCF Convergence is taking many iterations, one option is to try a smaller
- kinetic energy preconditioning parameter 'K_ZERO' (e.g.
+ kinetic energy preconditioning parameter 
+\begin_inset Quotes els
+\end_inset
+
+K_ZERO
+\begin_inset Quotes ers
+\end_inset
+
+ (e.g.
  setting it to 2.5 
 \begin_inset Formula $a_{0}^{-1}$
 \end_inset
@@ -580,5 +641,29 @@ If SCF Convergence is taking many iterations, one option is to try a smaller
  is still maintained.
 \end_layout
 
+\begin_layout Itemize
+As a rule of thumb for new users of ONETEP, the following parameters usually
+ fall in the below range, depending on the accuracy of the calculation:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+NGWF radius: 7 bohr to 10 bohr 
+\end_layout
+
+\begin_layout Itemize
+Cutoff energy: 700 eV to 1200 eV
+\end_layout
+
+\begin_layout Itemize
+Usually this would match the valence chemistry e.g.
+ 1 for Hydrogen or 4 for Oxygen.
+ You may need to increase this in some cases, e.g.
+ Silicon crystal required 9 NGWFs for an accurate description (see doi:10.1063/1.2
+796168).
+ 
+\end_layout
+
+\end_deeper
 \end_body
 \end_document

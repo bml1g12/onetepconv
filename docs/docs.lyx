@@ -641,5 +641,29 @@ K_ZERO
  is still maintained.
 \end_layout
 
+\begin_layout Itemize
+As a rule of thumb for new users of ONETEP, the following parameters usually
+ fall in the below range, depending on the required accuracy of the calculation:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+NGWF radius: 7 bohr to 10 bohr 
+\end_layout
+
+\begin_layout Itemize
+Cutoff energy: 700 eV to 1200 eV
+\end_layout
+
+\begin_layout Itemize
+Usually this would match the valence chemistry e.g.
+ 1 for Hydrogen or 4 for Oxygen.
+ You may need to increase this in some cases, e.g.
+ Silicon crystal required 9 NGWFs for an accurate description (see doi:10.1063/1.2
+796168).
+ 
+\end_layout
+
+\end_deeper
 \end_body
 \end_document
