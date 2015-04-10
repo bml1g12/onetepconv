@@ -12,11 +12,11 @@ for directory in */;
 do
   echo $directory
   cd $directory
-
+  rt_dir=$(basename "$directory")
   ###Extract Total DFT Energy from .onetep output file
 
   energy=`grep '<-- CG' *.onetep | awk {'print $3'}`
-  echo "$directory,$energy" >> ../energies.csv #write energies to root directory
+  echo "$rt_dir,$energy" >> ../energies.csv #write energies to root directory
 
   ###Extract Average Forces
 
@@ -36,7 +36,7 @@ do
  
   species_array+=("$species_line")
 
-  echo "$directory,${max}" >> ../forces.csv #write forces to root directory
+  echo "$rt_dir,${max}" >> ../forces.csv #write forces to root directory
   cd ..
 
 done
